@@ -21,7 +21,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Get Shopware Matrix
-        uses: ./ # TODO: put the name of the action here
+        uses: tinect/github-shopware-matrix-generator@main
         id: matrix
         with:
           versionConstraint: '~6.6.0'
