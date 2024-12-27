@@ -1,0 +1,34 @@
+name: 'Get Matrix for Shopware versions'
+description: 'Gets a GitHub Action Matrix array for Shopware versions depending on given version constraint'
+author: 'tinect'
+branding:
+  icon: 'shuffle'
+  color: 'blue'
+inputs:
+  versionConstraint:
+    required: true
+    description: 'Version constraint for Shopware'
+    default: '~6.6.0'
+  allowEol:
+    required: false
+    description: 'Allow EOL versions'
+    default: 'false'
+  justMinMaxShopware:
+    required: false
+    description: 'Only return min and max Shopware version, instead of any supported minor version'
+    default: 'false'
+  allowShopwareNext:
+    required: false
+    description: 'Allow Shopware unreleased versions matching the constraint'
+    default: 'false'
+  allowShopwareRC:
+    required: false
+    description: 'Allow Shopware release candidate versions matching the constraint'
+    default: 'false'
+outputs:
+  matrix:
+    description: 'GitHub Action Matrix'
+runs:
+  using: 'node20'
+  pre: 'npm install'
+  main: 'src/main.js'
