@@ -37,8 +37,19 @@ jobs:
     strategy:
       matrix: ${{ fromJson(needs.get-matrix.outputs.matrix) }}
     steps:
-      - name: Echo matrix
+      - name: Setup Shopware
+        uses: shopware/setup-shopware@main
+        with:
+          shopware-version: ${{ matrix.shopware }}
+          php-version: ${{ matrix.php }}
+          php-extensions: pcov
+          
+      - name: Install Plugin
+        uses: actions/checkout@v3
+        with:
+          path: ${{ github.workspace }}/custom/plugins/myPlugin
+
+      - name: Run tests
         run: |
-          echo "${{ matrix.shopware }}"
-          echo "${{ matrix.php }}"
+          echo "Running tests for Shopware ${{ matrix.shopware }} with PHP ${{ matrix.php }}"
 ```
