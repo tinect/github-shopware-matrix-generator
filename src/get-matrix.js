@@ -62,7 +62,6 @@ async function getSupportedVersions(allowShopwareRC, allowEol, versionConstraint
         return obj;
     }, {});
 }
-
 async function getMatrix(versionConstraint, allowEol = false, justMinMaxShopware = false, allowShopwareNext = false, allowShopwareRC = false) {
     const ignoredShopwareVersions = await getIgnoredShopwareVersions(allowEol);
     const supportedVersions = await getSupportedVersions(allowShopwareRC, allowEol, versionConstraint, ignoredShopwareVersions);
@@ -118,3 +117,5 @@ async function getMatrix(versionConstraint, allowEol = false, justMinMaxShopware
         include: list
     };
 }
+
+module.exports = getMatrix;
