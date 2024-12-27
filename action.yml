@@ -30,5 +30,4 @@ outputs:
     description: 'GitHub Action Matrix'
 runs:
   using: 'node20'
-  pre: 'npm install'
-  main: 'src/main.js'
+  main: 'dist/index.js'
