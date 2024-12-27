@@ -1,5 +1,5 @@
 const core = require('@actions/core');
-const { getMatrix } = require('./get-matrix');
+const getMatrix = require('./get-matrix');
 
 (async () => {
     try {

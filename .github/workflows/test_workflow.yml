@@ -1,0 +1,36 @@
+name: Test workflow on PR
+
+on: [pull_request]
+
+jobs:
+  get-matrix:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.matrix.outputs.matrix }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - run: npm install
+
+      - name: Get Shopware Matrix
+        uses: ./
+        id: matrix
+        with:
+          versionConstraint: '~6.6.0'
+          allowEol: false
+          justMinMaxShopware: false
+          allowShopwareNext: false
+          allowShopwareRC: false
+
+  run-tests:
+    name: Run tests
+    needs: get-matrix
+    runs-on: ubuntu-latest
+    strategy:
+      matrix: ${{ fromJson(needs.get-matrix.outputs.matrix) }}
+    steps:
+      - name: Echo matrix
+        run: |
+          echo "${{ matrix.shopware }}"
+          echo "${{ matrix.php }}"
