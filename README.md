@@ -32,14 +32,16 @@ jobs:
         id: matrix
         with:
           versionConstraint: ${{ steps.shopware-constraint.outputs.shopware_constraint }}
-          # Determine weather to include EOL versions of Shopware and PHP.
+          # Determine whether to include EOL versions of Shopware and PHP.
           allowEol: false
-          # Determine weather to only include the min and max version of Shopware - otherwise all minor versions in between are included.
+          # Determine whether to only include the min and max version of Shopware - otherwise all minor versions in between are included.
           justMinMaxShopware: false
-          # Determine weather to include unreleased version of Shopware - respecting the version constraint.
+          # Determine whether to include unreleased version of Shopware - respecting the version constraint.
           allowShopwareNext: false
-          # Determine weather to include release candidates of Shopware.
+          # Determine whether to include release candidates of Shopware.
           allowShopwareRC: false
+          # Determine whether to include PHP version per entry.
+          includePhpVersion: true
 
   run-tests:
     name: Run tests

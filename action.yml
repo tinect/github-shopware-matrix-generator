@@ -11,20 +11,24 @@ inputs:
     default: '~6.6.0'
   allowEol:
     required: false
-    description: 'Determine weather to include EOL versions of Shopware and PHP'
+    description: 'Determine whether to include EOL versions of Shopware and PHP'
     default: 'false'
   justMinMaxShopware:
     required: false
-    description: 'Determine weather to only include the min and max version of Shopware - otherwise all minor versions in between are included.'
+    description: 'Determine whether to only include the min and max version of Shopware - otherwise all minor versions in between are included.'
     default: 'false'
   allowShopwareNext:
     required: false
-    description: 'Determine weather to include unreleased version of Shopware - respecting the version constraint.'
+    description: 'Determine whether to include unreleased version of Shopware - respecting the version constraint.'
     default: 'false'
   allowShopwareRC:
     required: false
-    description: 'Determine weather to include release candidates of Shopware.'
+    description: 'Determine whether to include release candidates of Shopware.'
     default: 'false'
+  includePhpVersion:
+    required: false
+    description: 'Determine whether to include PHP version per entry.'
+    default: 'true'
 outputs:
   matrix:
     description: 'GitHub Action Matrix'
