@@ -3,7 +3,7 @@ const getMatrix = require('./get-matrix');
 
 (async () => {
     try {
-        const matrix = await getMatrix(
+        const matrix = getMatrix(
             core.getInput('versionConstraint', { required: true }),
             core.getBooleanInput('allowEol'),
             core.getBooleanInput('justMinMaxShopware'),

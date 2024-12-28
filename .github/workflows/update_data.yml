@@ -2,7 +2,7 @@ name: Update data dependencies
 
 on:
   schedule:
-    - cron: "0 0 * * *"
+    - cron: "0 8-18 * * 1-5"
   workflow_dispatch:
 
 jobs:
@@ -16,7 +16,9 @@ jobs:
         run: npm install
 
       - name: Update data
-        run: npm run update-data
+        run: |
+          npm run update-data
+          npm run build
 
       - name: Create PR
         uses: peter-evans/create-pull-request@v7

@@ -1,12 +1,12 @@
 const semver = require('semver');
+const phpVersions = require('../data/php-versions.json');
+const shopwareReleases = require('../data/shopware-releases.json');
+const shopwareVersions = require('../data/all-supported-php-versions-by-shopware-version.json');
 
-async function getIgnoredShopwareVersions(ignoreEol) {
+function getIgnoredShopwareVersions(ignoreEol) {
     if (!ignoreEol) {
         return [];
     }
-
-    const response = await fetch('https://raw.githubusercontent.com/shopware/shopware/refs/heads/trunk/releases.json');
-    const shopwareReleases = await response.json();
 
     const ignoredVersions = [];
     const currentDate = new Date().toISOString().split('T')[0];
@@ -20,19 +20,16 @@ async function getIgnoredShopwareVersions(ignoreEol) {
     return ignoredVersions;
 }
 
-async function getPhpVersions(allowEol) {
-    const phpWatchUrl = allowEol ? 'https://php.watch/api/v1/versions' : 'https://php.watch/api/v1/versions/secure';
-    const response = await fetch(phpWatchUrl);
-    const phpData = (await response.json()).data;
+function getPhpVersions(allowEol) {
+    const phpData = Object.values(phpVersions.data).filter(version => {
+        return !version.isFutureVersion && (allowEol ? true : !version.isEOLVersion);
+    });
 
-    return Object.values(phpData).map(version => version.name);
+    return phpData.map(version => version.name);
 }
 
-async function getSupportedVersions(allowShopwareRC, allowEol, versionConstraint, ignoredShopwareVersions) {
-    const response = await fetch('https://raw.githubusercontent.com/FriendsOfShopware/shopware-static-data/refs/heads/main/data/all-supported-php-versions-by-shopware-version.json');
-    const shopwareVersions = await response.json();
-
-    const phpVersions = await getPhpVersions(allowEol);
+function getSupportedVersions(allowShopwareRC, allowEol, versionConstraint, ignoredShopwareVersions) {
+    const phpVersions = getPhpVersions(allowEol);
 
     const supportedVersions = {};
 
@@ -62,9 +59,10 @@ async function getSupportedVersions(allowShopwareRC, allowEol, versionConstraint
         return obj;
     }, {});
 }
-async function getMatrix(versionConstraint, allowEol = false, justMinMaxShopware = false, allowShopwareNext = false, allowShopwareRC = false) {
-    const ignoredShopwareVersions = await getIgnoredShopwareVersions(allowEol);
-    const supportedVersions = await getSupportedVersions(allowShopwareRC, allowEol, versionConstraint, ignoredShopwareVersions);
+
+function getMatrix(versionConstraint, allowEol = false, justMinMaxShopware = false, allowShopwareNext = false, allowShopwareRC = false) {
+    const ignoredShopwareVersions = getIgnoredShopwareVersions(allowEol);
+    const supportedVersions = getSupportedVersions(allowShopwareRC, allowEol, versionConstraint, ignoredShopwareVersions);
     const lastKey = Object.keys(supportedVersions).pop();
 
     const list = [];
