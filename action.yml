@@ -11,19 +11,19 @@ inputs:
     default: '~6.6.0'
   allowEol:
     required: false
-    description: 'Allow EOL versions'
+    description: 'Determine weather to include EOL versions of Shopware and PHP'
     default: 'false'
   justMinMaxShopware:
     required: false
-    description: 'Only return min and max Shopware version, instead of any supported minor version'
+    description: 'Determine weather to only include the min and max version of Shopware - otherwise all minor versions in between are included.'
     default: 'false'
   allowShopwareNext:
     required: false
-    description: 'Allow Shopware unreleased versions matching the constraint'
+    description: 'Determine weather to include unreleased version of Shopware - respecting the version constraint.'
     default: 'false'
   allowShopwareRC:
     required: false
-    description: 'Allow Shopware release candidate versions matching the constraint'
+    description: 'Determine weather to include release candidates of Shopware.'
     default: 'false'
 outputs:
   matrix:
