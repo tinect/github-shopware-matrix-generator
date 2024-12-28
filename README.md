@@ -18,13 +18,17 @@ jobs:
       matrix: ${{ steps.matrix.outputs.matrix }}
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
+
+      - name: Get Shopware Version from composer.json
+        id: shopware-constraint
+        run: echo "shopware_constraint=$(cat composer.json | jq -r '.require."shopware/core"')" >> $GITHUB_OUTPUT
 
       - name: Get Shopware Matrix
         uses: tinect/github-shopware-matrix-generator@main
         id: matrix
         with:
-          versionConstraint: '~6.6.0'
+          versionConstraint: ${{ steps.shopware-constraint.outputs.shopware_constraint }}
           allowEol: false
           justMinMaxShopware: false
           allowShopwareNext: false
