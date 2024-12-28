@@ -8,7 +8,8 @@ const getMatrix = require('./get-matrix');
             core.getBooleanInput('allowEol'),
             core.getBooleanInput('justMinMaxShopware'),
             core.getBooleanInput('allowShopwareNext'),
-            core.getBooleanInput('allowShopwareRC')
+            core.getBooleanInput('allowShopwareRC'),
+            core.getBooleanInput('includePhpVersion'),
         )
         core.setOutput('matrix', matrix);
     } catch (error) {

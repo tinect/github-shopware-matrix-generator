@@ -60,12 +60,12 @@ function getSupportedVersions(allowShopwareRC, allowEol, versionConstraint, igno
     }, {});
 }
 
-function getMatrix(versionConstraint, allowEol = false, justMinMaxShopware = false, allowShopwareNext = false, allowShopwareRC = false) {
+function getMatrix(versionConstraint, allowEol = false, justMinMaxShopware = false, allowShopwareNext = false, allowShopwareRC = false, includePhpVersion = true) {
     const ignoredShopwareVersions = getIgnoredShopwareVersions(allowEol);
     const supportedVersions = getSupportedVersions(allowShopwareRC, allowEol, versionConstraint, ignoredShopwareVersions);
     const lastKey = Object.keys(supportedVersions).pop();
 
-    const list = [];
+    let list = [];
 
     for (const [shopwareMinor, data] of Object.entries(supportedVersions)) {
         if (shopwareMinor === lastKey || list.length === 0) {
@@ -97,6 +97,14 @@ function getMatrix(versionConstraint, allowEol = false, justMinMaxShopware = fal
                 php: '8.3',
             });
         }
+    }
+
+    if (!includePhpVersion) {
+        list.forEach(item => {
+            delete item.php;
+        });
+
+        list = list.filter((v, i, a) => a.findIndex(t => t.shopware === v.shopware) === i);
     }
 
     if (list.length === 0) {
