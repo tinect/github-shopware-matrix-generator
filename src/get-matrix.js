@@ -99,13 +99,6 @@ async function getMatrix(versionConstraint, allowEol = false, justMinMaxShopware
                 php: '8.3',
             });
         }
-
-        if (semver.satisfies('6.4.9999', versionConstraint)) {
-            list.push({
-                shopware: '6.4',
-                php: '8.2',
-            });
-        }
     }
 
     if (list.length === 0) {
