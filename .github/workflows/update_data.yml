@@ -1,0 +1,29 @@
+name: Update data dependencies
+
+on:
+  schedule:
+    - cron: "0 0 * * *"
+  workflow_dispatch:
+
+jobs:
+  update-data:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Update data
+        run: npm run update-data
+
+      - name: Create PR
+        uses: peter-evans/create-pull-request@v7
+        with:
+          commit-message: "chore: update data"
+          title: "chore: update data"
+          branch: chore/update-data
+          base: main
+          body: |
+            This PR updates the data dependencies.

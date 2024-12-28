@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack",
+    "update-data": "node ./update-data.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "private": true,
