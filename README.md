@@ -1,6 +1,9 @@
 # Get Matrix for Shopware Versions
 
-This GitHub Action retrieves a matrix array for Shopware versions based on a given version constraint. It allows for various configurations such as including/excluding EOL versions, release candidates, and unreleased versions.
+This GitHub Action retrieves a matrix array for Shopware versions based on a given version constraint.
+It allows for various configurations such as including/excluding EOL versions, release candidates, and unreleased versions.
+
+Additionally, the first and last determined shopware versions are always tested with all PHP versions - also respecting the given allowEol input.
 
 ## Usage
 
