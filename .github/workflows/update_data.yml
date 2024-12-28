@@ -25,5 +25,6 @@ jobs:
           title: "chore: update data"
           branch: chore/update-data
           base: main
+          delete-branch: true
           body: |
             This PR updates the data dependencies.
