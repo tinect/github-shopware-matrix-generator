@@ -86,10 +86,10 @@
       "eolDate": "2027-12-31",
       "isEOLVersion": false,
       "isSecureVersion": true,
-      "isLatestVersion": true,
+      "isLatestVersion": false,
       "isFutureVersion": false,
       "isNextVersion": false,
-      "statusLabel": "Supported (Latest)"
+      "statusLabel": "Supported"
     },
     "80400": {
       "versionId": 80400,
@@ -98,11 +98,11 @@
       "activeSupportEndDate": "2026-12-31",
       "eolDate": "2028-12-31",
       "isEOLVersion": false,
-      "isSecureVersion": false,
-      "isLatestVersion": false,
-      "isFutureVersion": true,
-      "isNextVersion": true,
-      "statusLabel": "Upcoming Release"
+      "isSecureVersion": true,
+      "isLatestVersion": true,
+      "isFutureVersion": false,
+      "isNextVersion": false,
+      "statusLabel": "Supported (Latest)"
     },
     "80500": {
       "versionId": 80500,
@@ -114,8 +114,8 @@
       "isSecureVersion": false,
       "isLatestVersion": false,
       "isFutureVersion": true,
-      "isNextVersion": false,
-      "statusLabel": "Future Release"
+      "isNextVersion": true,
+      "statusLabel": "Upcoming Release"
     }
   },
   "_documentation": "https://php.watch/api#versions",
