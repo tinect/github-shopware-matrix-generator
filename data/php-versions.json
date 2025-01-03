@@ -76,7 +76,7 @@
       "isLatestVersion": false,
       "isFutureVersion": false,
       "isNextVersion": false,
-      "statusLabel": "Supported"
+      "statusLabel": "Security-Fixes Only"
     },
     "80300": {
       "versionId": 80300,
