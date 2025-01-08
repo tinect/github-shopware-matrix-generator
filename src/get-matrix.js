@@ -25,14 +25,12 @@ function getMatrix(
             return;
         }
 
-        if (includePhpVersion) {
-            if (!allowEol) {
-                release.php_versions = release.php_versions.filter(phpVersion => phpVersion.eol >= currentDate);
-            }
+        if (!allowEol) {
+            release.php_versions = release.php_versions.filter(phpVersion => phpVersion.eol >= currentDate);
+        }
 
-            if (release.php_versions.length === 0) {
-                return;
-            }
+        if (release.php_versions.length === 0) {
+            return;
         }
 
         allowedVersions.push(release);
@@ -56,6 +54,28 @@ function getMatrix(
             });
         }
     });
+
+    if (allowShopwareNext) {
+        if (semver.satisfies('6.6.9999', versionConstraint)) {
+            list.push({
+                shopware: 'trunk',
+                php: '8.3',
+            });
+        }
+        if (semver.satisfies('6.5.9999', versionConstraint)) {
+            list.push({
+                shopware: '6.5.x',
+                php: '8.3',
+            });
+        }
+    }
+
+    if (!includePhpVersion) {
+        list.forEach(item => {
+            delete item.php;
+        });
+        list = list.filter((v, i, a) => a.findIndex(t => t.shopware === v.shopware) === i);
+    }
 
     if (list.length === 0) {
         console.log('No supported versions found');
