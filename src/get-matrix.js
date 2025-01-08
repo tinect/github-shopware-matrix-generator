@@ -33,6 +33,8 @@ function getMatrix(
             return;
         }
 
+        release.version = 'v' + release.version;
+
         allowedVersions.push(release);
     });
 
