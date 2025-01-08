@@ -3,21 +3,22 @@ const phpVersions = require('../data/php-versions.json');
 const shopwareReleases = require('../data/shopware-releases.json');
 const shopwareVersions = require('../data/all-supported-php-versions-by-shopware-version.json');
 
-function getIgnoredShopwareVersions(ignoreEol) {
-    if (!ignoreEol) {
-        return [];
-    }
-
-    const ignoredVersions = [];
+function getAllowedShopwareVersions(ignoreEol) {
+    const allowedVersions = [];
     const currentDate = new Date().toISOString().split('T')[0];
 
     shopwareReleases.forEach(release => {
-        if (release.security_eol < currentDate) {
-            ignoredVersions.push(release.version.split('.').slice(0, 3).join('.'));
+        if (ignoreEol || release.security_eol >= currentDate) {
+            const parts = release.version.split('.');
+            if (parts.length === 2) {
+                parts.push('0');
+            }
+            allowedVersions.push(parts.slice(0, 3).join('.'));
         }
     });
 
-    return ignoredVersions;
+
+    return allowedVersions;
 }
 
 function getPhpVersions(allowEol) {
@@ -28,7 +29,7 @@ function getPhpVersions(allowEol) {
     return phpData.map(version => version.name);
 }
 
-function getSupportedVersions(allowShopwareRC, allowEol, versionConstraint, ignoredShopwareVersions) {
+function getSupportedVersions(allowShopwareRC, allowEol, versionConstraint, allowedShopwareVersions) {
     const phpVersions = getPhpVersions(allowEol);
 
     const supportedVersions = {};
@@ -41,7 +42,7 @@ function getSupportedVersions(allowShopwareRC, allowEol, versionConstraint, igno
         const shopwareMinor = shopwareVersion.split('.').slice(0, 3).join('.');
 
         if (semver.satisfies(shopwareMinor, versionConstraint)) {
-            if (!ignoredShopwareVersions.includes(shopwareMinor)) {
+            if (isAllowedShopwareVersion(shopwareMinor, allowedShopwareVersions)) {
                 const filteredPhpVersions = supportedPhpVersions.filter(phpVersion => phpVersions.includes(phpVersion));
 
                 if (filteredPhpVersions.length > 0) {
@@ -60,9 +61,19 @@ function getSupportedVersions(allowShopwareRC, allowEol, versionConstraint, igno
     }, {});
 }
 
+function isAllowedShopwareVersion(shopwareVersion, allowedShopwareVersions) {
+    for (const allowedVersion of allowedShopwareVersions) {
+        if (semver.gte(shopwareVersion, allowedVersion)) {
+            return true;
+        }
+    }
+
+    return false;
+}
+
 function getMatrix(versionConstraint, allowEol = false, justMinMaxShopware = false, allowShopwareNext = false, allowShopwareRC = false, includePhpVersion = true) {
-    const ignoredShopwareVersions = getIgnoredShopwareVersions(allowEol);
-    const supportedVersions = getSupportedVersions(allowShopwareRC, allowEol, versionConstraint, ignoredShopwareVersions);
+    const allowedShopwareVersions = getAllowedShopwareVersions(allowEol);
+    const supportedVersions = getSupportedVersions(allowShopwareRC, allowEol, versionConstraint, allowedShopwareVersions);
     const lastKey = Object.keys(supportedVersions).pop();
 
     let list = [];
