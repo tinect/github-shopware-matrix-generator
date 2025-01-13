@@ -10,13 +10,10 @@ function getMatrix(
     includePhpVersion = true
 ) {
     const allowedVersions = [];
+    const allowedRCVersions = [];
     const currentDate = new Date().toISOString().split('T')[0];
 
     shopwareData.forEach(release => {
-        if (!allowShopwareRC && release.version.includes('-RC')) {
-            return;
-        }
-
         if (!allowEol && release.security_eol < currentDate) {
             return;
         }
@@ -35,27 +32,44 @@ function getMatrix(
 
         release.version = 'v' + release.version;
 
+        if (release.version.includes('-RC')) {
+            if (allowShopwareRC) {
+                allowedRCVersions.push(release);
+            }
+
+            return;
+        }
+
         allowedVersions.push(release);
     });
 
     const lastMinorVersion = allowedVersions[allowedVersions.length - 1].minor_version;
-    let list = [];
 
-    allowedVersions.forEach(allowedVersion => {
-        if (allowedVersion.minor_version === lastMinorVersion || list.length === 0) {
-            allowedVersion.php_versions.forEach(phpVersion => {
-                list.push({
-                    shopware: allowedVersion.version,
-                    php: phpVersion.version,
-                });
-            });
-        } else if (!justMinMaxShopware) {
-            list.push({
-                shopware: allowedVersion.version,
-                php: allowedVersion.php_versions.reduce((min, version) => (semver.lt(semver.coerce(version.version), semver.coerce(min)) ? version.version : min), allowedVersion.php_versions[0].version),
-            });
+    allowedRCVersions.forEach(release => {
+        if (semver.gt(release.minor_version + '-RC', lastMinorVersion)) {
+            allowedVersions.push(release);
         }
     });
+
+    let list = [];
+
+    if (allowedVersions.length > 0) {
+        allowedVersions.forEach(allowedVersion => {
+            if (allowedVersion.minor_version === lastMinorVersion || list.length === 0) {
+                allowedVersion.php_versions.forEach(phpVersion => {
+                    list.push({
+                        shopware: allowedVersion.version,
+                        php: phpVersion.version,
+                    });
+                });
+            } else if (!justMinMaxShopware) {
+                list.push({
+                    shopware: allowedVersion.version,
+                    php: allowedVersion.php_versions.reduce((min, version) => (semver.lt(semver.coerce(version.version), semver.coerce(min)) ? version.version : min), allowedVersion.php_versions[0].version),
+                });
+            }
+        });
+    }
 
     if (allowShopwareNext) {
         if (semver.satisfies('6.6.9999', versionConstraint)) {
