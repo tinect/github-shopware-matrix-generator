@@ -72,9 +72,15 @@ function getMatrix(
     }
 
     if (allowShopwareNext) {
-        if (semver.satisfies('6.6.9999', versionConstraint)) {
+        if (semver.satisfies('6.7.9999', versionConstraint)) {
             list.push({
                 shopware: 'trunk',
+                php: '8.3',
+            });
+        }
+        if (semver.satisfies('6.6.9999', versionConstraint)) {
+            list.push({
+                shopware: '6.6.x',
                 php: '8.3',
             });
         }
