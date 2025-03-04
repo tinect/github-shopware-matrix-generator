@@ -50,6 +50,7 @@ async function updateData() {
     const shopwareMinorData = {};
     for (const [shopwareVersion, supportedPhpVersions] of Object.entries(shopwareVersions)) {
         let shopwareMinor = shopwareVersion.split('.').slice(0, 3).join('.');
+        let shopwareMajor = shopwareVersion.split('.').slice(0, 2).join('.');
 
         supportedPhpVersions.forEach((phpVersion, i) => {
             supportedPhpVersions[i] = phpVersions.find(version => version.version === phpVersion);
@@ -57,6 +58,7 @@ async function updateData() {
 
         shopwareMinorData[shopwareMinor] = {
             version: shopwareVersion,
+            major_version: shopwareMajor,
             minor_version: shopwareMinor,
             php_versions: supportedPhpVersions
         };
