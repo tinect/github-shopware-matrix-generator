@@ -43,25 +43,30 @@ function getMatrix(
         allowedVersions.push(release);
     });
 
-    const lastMinorVersion = allowedVersions[allowedVersions.length - 1].minor_version;
-
     let lastAndMinVersionPerMajor = [];
-    allowedVersions.forEach(release => {
-        const foundFirstMinor = lastAndMinVersionPerMajor.find(v => v.major_version === release.major_version);
-        const foundLastMinor = lastAndMinVersionPerMajor.findLast(v => v.major_version === release.major_version);
-        if (foundFirstMinor !== foundLastMinor) {
-            if (semver.gte(release.minor_version, foundLastMinor.minor_version)) {
-                const foundIndex = lastAndMinVersionPerMajor.findIndex(v => v.version === release.version);
-                lastAndMinVersionPerMajor.splice(foundIndex, 1);
-            }
-        }
+    let lastMinorVersion = '6.0.0';
 
-        lastAndMinVersionPerMajor.push(release);
-    });
+    if (allowedVersions.length > 0) {
+        lastMinorVersion = allowedVersions[allowedVersions.length - 1].minor_version;
+
+        allowedVersions.forEach(release => {
+            const foundFirstMinor = lastAndMinVersionPerMajor.find(v => v.major_version === release.major_version);
+            const foundLastMinor = lastAndMinVersionPerMajor.findLast(v => v.major_version === release.major_version);
+            if (foundFirstMinor !== foundLastMinor) {
+                if (semver.gte(release.minor_version, foundLastMinor.minor_version)) {
+                    const foundIndex = lastAndMinVersionPerMajor.findIndex(v => v.version === release.version);
+                    lastAndMinVersionPerMajor.splice(foundIndex, 1);
+                }
+            }
+
+            lastAndMinVersionPerMajor.push(release);
+        });
+    }
 
     allowedRCVersions.forEach(release => {
         if (semver.gt(release.minor_version + '-RC', lastMinorVersion)) {
             allowedVersions.push(release);
+            lastAndMinVersionPerMajor.push(release);
         }
     });
 
