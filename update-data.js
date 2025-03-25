@@ -48,9 +48,14 @@ async function updateData() {
     const phpVersions = await getPhpVersions();
 
     const shopwareMinorData = {};
-    for (const [shopwareVersion, supportedPhpVersions] of Object.entries(shopwareVersions)) {
+    for (let [shopwareVersion, supportedPhpVersions] of Object.entries(shopwareVersions)) {
         let shopwareMinor = shopwareVersion.split('.').slice(0, 3).join('.');
         let shopwareMajor = shopwareVersion.split('.').slice(0, 2).join('.');
+
+        // they wrote "RC" lowercase :-(
+        if (shopwareVersion.includes('RC') && shopwareMinor === '6.7.0') {
+            shopwareVersion = shopwareVersion.replace('RC', 'rc');
+        }
 
         supportedPhpVersions.forEach((phpVersion, i) => {
             supportedPhpVersions[i] = phpVersions.find(version => version.version === phpVersion);
