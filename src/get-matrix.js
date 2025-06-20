@@ -13,7 +13,7 @@ function getMatrix(
     const allowedRCVersions = [];
     const currentDate = new Date().toISOString().split('T')[0];
 
-    shopwareData.forEach(release => {
+    Object.values(shopwareData).forEach(release => {
         if (!allowEol && release.security_eol < currentDate) {
             return;
         }
@@ -122,6 +122,10 @@ function getMatrix(
         console.log('No supported versions found');
         process.exit(1);
     }
+
+    list.sort((a, b) => {
+        return a.shopware.localeCompare(b.shopware, undefined, {numeric: true});
+    });
 
     return {
         include: list
