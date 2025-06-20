@@ -78,12 +78,14 @@ function getMatrix(
                 allowedVersion.php_versions.forEach(phpVersion => {
                     list.push({
                         shopware: allowedVersion.version,
+                        minor_shopware: allowedVersion.minor_version,
                         php: phpVersion.version,
                     });
                 });
             } else if (!justMinMaxShopware) {
                 list.push({
                     shopware: allowedVersion.version,
+                    minor_shopware: allowedVersion.minor_version,
                     php: allowedVersion.php_versions.reduce((min, version) => (semver.lt(semver.coerce(version.version), semver.coerce(min)) ? version.version : min), allowedVersion.php_versions[0].version),
                 });
             }
@@ -94,18 +96,21 @@ function getMatrix(
         if (semver.satisfies('6.7.9999', versionConstraint)) {
             list.push({
                 shopware: 'trunk',
+                minor_shopware: '6.7.9999',
                 php: '8.3',
             });
         }
         if (semver.satisfies('6.6.9999', versionConstraint)) {
             list.push({
                 shopware: '6.6.x',
+                minor_shopware: '6.6.9999',
                 php: '8.3',
             });
         }
         if (semver.satisfies('6.5.9999', versionConstraint)) {
             list.push({
                 shopware: '6.5.x',
+                minor_shopware: '6.5.9999',
                 php: '8.3',
             });
         }
