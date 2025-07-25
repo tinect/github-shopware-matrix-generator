@@ -1154,5 +1154,25 @@
       }
     ],
     "security_eol": "2027-02-28"
+  },
+  "6.7.1": {
+    "version": "6.7.1.0",
+    "major_version": "6.7",
+    "minor_version": "6.7.1",
+    "php_versions": [
+      {
+        "version": "8.2",
+        "eol": "2026-12-31"
+      },
+      {
+        "version": "8.3",
+        "eol": "2027-12-31"
+      },
+      {
+        "version": "8.4",
+        "eol": "2028-12-31"
+      }
+    ],
+    "security_eol": "2027-02-28"
   }
 }
