@@ -107,13 +107,6 @@ function getMatrix(
                 php: '8.3',
             });
         }
-        if (semver.satisfies('6.5.9999', versionConstraint)) {
-            list.push({
-                shopware: '6.5.x',
-                minor_shopware: '6.5.9999',
-                php: '8.3',
-            });
-        }
     }
 
     if (!includePhpVersion) {
