@@ -1,6 +1,28 @@
 const semver = require('semver');
 const shopwareData = require('./data.json');
 
+// this needs to be updated manually
+const nextVersions = [
+    {
+        version: '6.6.x',
+        major_version: '6.6.x',
+        minor_version: '6.6.9999',
+        php_versions: [
+            { version: '8.3' },
+        ],
+        security_eol: null
+    },
+    {
+        version: 'trunk',
+        major_version: 'trunk',
+        minor_version: '6.7.9999',
+        php_versions: [
+            { version: '8.3' },
+        ],
+        security_eol: null
+    }
+];
+
 function getMatrix(
     versionConstraint,
     allowEol = false,
@@ -72,6 +94,14 @@ function getMatrix(
 
     let list = [];
 
+    if (allowShopwareNext) {
+        nextVersions.forEach(release => {
+            if (semver.satisfies(release.minor_version, versionConstraint)) {
+                allowedVersions.push(release);
+            }
+        });
+    }
+
     if (allowedVersions.length > 0) {
         allowedVersions.forEach(allowedVersion => {
             if (list.length === 0 || lastAndMinVersionPerMajor.findIndex(v => v.version === allowedVersion.version) > -1) {
@@ -90,23 +120,6 @@ function getMatrix(
                 });
             }
         });
-    }
-
-    if (allowShopwareNext) {
-        if (semver.satisfies('6.7.9999', versionConstraint)) {
-            list.push({
-                shopware: 'trunk',
-                minor_shopware: '6.7.9999',
-                php: '8.3',
-            });
-        }
-        if (semver.satisfies('6.6.9999', versionConstraint)) {
-            list.push({
-                shopware: '6.6.x',
-                minor_shopware: '6.6.9999',
-                php: '8.3',
-            });
-        }
     }
 
     if (!includePhpVersion) {
