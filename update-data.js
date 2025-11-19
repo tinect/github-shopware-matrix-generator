@@ -50,8 +50,11 @@ async function updateData() {
 
     const shopwareMinorData = {};
     for (let [shopwareVersion, supportedPhpVersions] of Object.entries(shopwareVersions)) {
-        let shopwareMinor = shopwareVersion.split('.').slice(0, 3).join('.');
-        let shopwareMajor = shopwareVersion.split('.').slice(0, 2).join('.');
+        const versionParts = shopwareVersion.split('.');
+
+        let baseParts = versionParts.length - 3;
+        let shopwareMajor = versionParts.slice(0, baseParts + 1).join('.');
+        let shopwareMinor = versionParts.slice(0, baseParts + 2).join('.');
 
         // they wrote "RC" lowercase :-(
         if (shopwareVersion.includes('RC') && shopwareMinor === '6.7.0') {
