@@ -1,0 +1,24 @@
+{
+  "6.6.x": {
+    "version": "6.6.x",
+    "major_version": "6.6.x",
+    "minor_version": "6.6.9999",
+    "php_versions": [
+      {
+        "version": "8.3"
+      }
+    ],
+    "security_eol": null
+  },
+  "trunk": {
+    "version": "trunk",
+    "major_version": "trunk",
+    "minor_version": "6.7.9999",
+    "php_versions": [
+      {
+        "version": "8.3"
+      }
+    ],
+    "security_eol": null
+  }
+}

@@ -1,27 +1,8 @@
 const semver = require('semver');
 const shopwareData = require('./data.json');
 
-// this needs to be updated manually
-const nextVersions = [
-    {
-        version: '6.6.x',
-        major_version: '6.6.x',
-        minor_version: '6.6.9999',
-        php_versions: [
-            { version: '8.3' },
-        ],
-        security_eol: null
-    },
-    {
-        version: 'trunk',
-        major_version: 'trunk',
-        minor_version: '6.7.9999',
-        php_versions: [
-            { version: '8.3' },
-        ],
-        security_eol: null
-    }
-];
+// this file needs to be updated manually
+const nextVersions = require('./data-next.json');
 
 function getMatrix(
     versionConstraint,
@@ -95,7 +76,7 @@ function getMatrix(
     let list = [];
 
     if (allowShopwareNext) {
-        nextVersions.forEach(release => {
+        Object.values(nextVersions).forEach(release => {
             if (semver.satisfies(release.minor_version, versionConstraint)) {
                 allowedVersions.push(release);
                 lastAndMinVersionPerMajor.push(release);
