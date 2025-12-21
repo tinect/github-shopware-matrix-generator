@@ -98,6 +98,7 @@ function getMatrix(
         nextVersions.forEach(release => {
             if (semver.satisfies(release.minor_version, versionConstraint)) {
                 allowedVersions.push(release);
+                lastAndMinVersionPerMajor.push(release);
             }
         });
     }
