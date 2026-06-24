@@ -1380,7 +1380,7 @@
     "security_eol": "2028-02-28"
   },
   "6.7.11": {
-    "version": "6.7.11.0",
+    "version": "6.7.11.1",
     "major_version": "6.7",
     "minor_version": "6.7.11",
     "php_versions": [
