@@ -988,7 +988,7 @@
     "security_eol": "2029-06-01"
   },
   "6.6.10": {
-    "version": "6.6.10.29",
+    "version": "6.6.10.30",
     "major_version": "6.6",
     "minor_version": "6.6.10",
     "php_versions": [
